@@ -1,0 +1,43 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id String @id
+  username String
+  password String
+  name String
+  email String
+  phone String
+}
+
+model tracking {
+  id String @id
+  user_id String
+  token String
+  date DateTime
+  status Boolean
+  device_name String
+}
+
+model live_tracking {
+  tracking_id String @id
+  lat Int
+  long Int
+  accuracy Int
+  date DateTime?
+}
+model history_tracking {
+  id String @id
+  tracking_id String
+  lat Int
+  long Int
+  accuracy Int
+  date DateTime
+}
