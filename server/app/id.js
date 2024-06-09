@@ -3,8 +3,9 @@ import crypto from "crypto";
 class GenerateId {
   async user_id() {
     const dateTime = new Date().getTime();
+    const randomInt = crypto.randomInt(1, 9999999999999);
     const id = crypto.randomUUID();
-    return `${id}${dateTime}`;
+    return `${randomInt}${id}${dateTime}`;
   }
 
   async ohter_id() {

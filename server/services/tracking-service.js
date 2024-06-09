@@ -9,10 +9,7 @@ import Jwt from "jsonwebtoken";
 const create = async (request) => {
   const result = await validation(trackingValidation.create, request);
   const count = await database.tracking.count({
-    where: {
-      user_id: result.user_id,
-      device_name: result.device_name,
-    },
+    where: result,
   });
   if (count) throw new ResponseError(400, "device name already exist");
 
@@ -131,7 +128,10 @@ const liveTracking = async (request) => {
 };
 
 const verifyTrackingToken = async (request) => {
-  const result = await validation(request);
+  const result = await validation(
+    trackingValidation.verifyTrackingToken,
+    request
+  );
   const count = await database.tracking.count({
     where: {
       id: result.tracking_id,

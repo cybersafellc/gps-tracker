@@ -30,16 +30,16 @@ router.get(
   trakcingController.getHistoryByTrackingId
 );
 
-router.get(
-  "/tracking/verify-token",
-  authMiddleware.trackingToken,
-  trakcingController.verifyTrackingToken
-);
-
 router.delete(
-  "/tracking",
+  "/trackings",
   authMiddleware.verifyAccessToken,
   trakcingController.deletes
+);
+
+router.get(
+  "/tracker/verify-token",
+  authMiddleware.trackingToken,
+  trakcingController.verifyTrackingToken
 );
 
 router.post(

@@ -504,3 +504,419 @@ describe("GET:/api/trackings?live=<tracking_id>", () => {
     await deletedTracking(user_id);
   });
 });
+
+describe("DELETE:/api/trackings", () => {
+  beforeEach(async () => {
+    await deleteTestUser();
+    await createTestUser();
+  });
+  afterEach(async () => {
+    await deleteTestUser();
+  });
+
+  it("successfully deleted", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const responses = await supertest(web)
+      .delete("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        tracking_id: tracking_id,
+      });
+    expect(responses.status).toBe(200);
+    expect(responses.body.error).toBe(false);
+  }, 20000);
+
+  it("if tracking does not exist", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+
+    const responses = await supertest(web)
+      .delete("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        tracking_id: "doesnotexist",
+      });
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+  });
+
+  it("invalid body input", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+
+    const responses = await supertest(web)
+      .delete("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        tracking_id: "",
+      });
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+  });
+});
+
+describe("GET:/api/tracker/verify-token", () => {
+  beforeEach(async () => {
+    await deleteTestUser();
+    await createTestUser();
+  });
+  afterEach(async () => {
+    await deleteTestUser();
+  });
+
+  it("tracker_token verified", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+
+    const responses = await supertest(web)
+      .get("/api/tracker/verify-token")
+      .set("Authorization", `Bearer ${post.body.data.token}`);
+    logger.info(responses.body);
+    expect(responses.status).toBe(200);
+    expect(responses.body.error).toBe(false);
+
+    await deletedTracking(user_id);
+  });
+
+  it("tracker_id has deleted", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const deleted = await supertest(web)
+      .delete("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        tracking_id: tracking_id,
+      });
+    expect(deleted.status).toBe(200);
+    expect(deleted.body.error).toBe(false);
+
+    const responses = await supertest(web)
+      .get("/api/tracker/verify-token")
+      .set("Authorization", `Bearer ${post.body.data.token}`);
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+
+    await deletedTracking(user_id);
+  }, 20000);
+
+  it("invalid input", async () => {
+    const responses = await supertest(web)
+      .get("/api/tracker/verify-token")
+      .set("Authorization", `Bearer invalidToken`);
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+  });
+
+  it("not provided", async () => {
+    const responses = await supertest(web).get("/api/tracker/verify-token");
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+  }, 20000);
+});
+
+describe("POST:/api/tracker", () => {
+  beforeEach(async () => {
+    await deleteTestUser();
+    await createTestUser();
+  });
+  afterEach(async () => {
+    await deleteTestUser();
+  });
+
+  it("successfully post", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const responses = await supertest(web)
+      .post("/api/tracker")
+      .set("Authorization", `Bearer ${post.body.data.token}`)
+      .send({
+        lat: 1,
+        long: 1,
+        accuracy: 1,
+      });
+    expect(responses.status).toBe(200);
+    expect(responses.body.error).toBe(false);
+
+    await deletedTracking(user_id);
+  }, 20000);
+
+  it("tracking id has deleted", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const deleted = await supertest(web)
+      .delete("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        tracking_id: tracking_id,
+      });
+    expect(deleted.status).toBe(200);
+    expect(deleted.body.error).toBe(false);
+
+    const responses = await supertest(web)
+      .post("/api/tracker")
+      .set("Authorization", `Bearer ${post.body.data.token}`)
+      .send({
+        lat: 1,
+        long: 1,
+        accuracy: 1,
+      });
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+
+    await deletedTracking(user_id);
+  }, 20000);
+
+  it("invalid input", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const responses = await supertest(web)
+      .post("/api/tracker")
+      .set("Authorization", `Bearer ${post.body.data.token}`)
+      .send({
+        lat: "",
+        long: "",
+        accuracy: "",
+      });
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+
+    await deletedTracking(user_id);
+  }, 20000);
+
+  it("not provided", async () => {
+    const login = await supertest(web).post("/api/users/login").send({
+      username: "testing",
+      password: "rahasia",
+    });
+    expect(login.status).toBe(200);
+    expect(login.body.error);
+    expect(login.body.data.access_token).toBeDefined();
+    const user_id = Jwt.verify(
+      login.body.data.access_token,
+      process.env.USER_SECRET_ACCESS_TOKEN,
+      (err, decode) => {
+        return decode.id;
+      }
+    );
+    expect(user_id).toBeDefined();
+
+    const post = await supertest(web)
+      .post("/api/trackings")
+      .set("Authorization", `Bearer ${login.body.data.access_token}`)
+      .send({
+        device_name: "hp nande nande",
+      });
+    expect(post.status).toBe(200);
+    expect(post.body.error).toBe(false);
+    expect(post.body.data.token).toBeDefined();
+    const tracking_id = Jwt.verify(
+      post.body.data.token,
+      process.env.TRACKING_SECRET,
+      (err, decode) => {
+        return decode.tracking_id;
+      }
+    );
+    expect(tracking_id).toBeDefined();
+
+    const responses = await supertest(web)
+      .post("/api/tracker")
+      .set("Authorization", `Bearer ${post.body.data.token}`);
+    logger.info(responses.body);
+    expect(responses.status).toBe(400);
+    expect(responses.body.error).toBe(true);
+
+    await deletedTracking(user_id);
+  }, 20000);
+});
