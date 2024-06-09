@@ -52,6 +52,7 @@ const trackingToken = async (req, res, next) => {
     if (!decode)
       throw new ResponseError(400, "please provided valid tracking_token");
     req.tracking_id = await decode.tracking_id;
+    next();
   } catch (error) {
     next(error);
   }

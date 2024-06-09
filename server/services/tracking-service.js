@@ -101,6 +101,7 @@ const getHistoryById = async (request) => {
       id: result.id,
     },
   });
+  if (!history) throw new ResponseError(400, "history id does not exist");
   const isValidOwner = await database.tracking.count({
     where: {
       user_id: result.user_id,
@@ -186,10 +187,10 @@ const liveCall = async (request) => {
   await database.live_tracking.update({
     data: result,
     where: {
-      tracking_id: result.id,
+      tracking_id: result.tracking_id,
     },
   });
-  result.id = await new generate.ohter_id();
+  result.id = await generate.ohter_id();
   await database.history_tracking.create({
     data: result,
   });
