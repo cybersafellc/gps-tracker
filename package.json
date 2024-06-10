@@ -35,7 +35,6 @@
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^6.1.11",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
