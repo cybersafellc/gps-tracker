@@ -5,16 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server/main.js",
-    "build": "next build",
+    "build": "next build && prisma generate",
     "start": "node server/main.js",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "prisma generate"
   },
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     }
   },
+  "engines": {
+    "node": "18.x"
+  },
+  "author": "rusnanda purnama",
+  "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.15.0",
     "bcrypt": "^5.1.1",
