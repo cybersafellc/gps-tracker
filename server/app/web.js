@@ -12,17 +12,17 @@ const app = next({ dev });
 const handler = app.getRequestHandler();
 export const web = express();
 
-// app.prepare().then(() => {
-web.use(cors());
-web.use(cookieParser());
-web.use(bodyParser.json());
+app.prepare().then(() => {
+  web.use(cors());
+  web.use(cookieParser());
+  web.use(bodyParser.json());
 
-web.use("/api", publicRouter);
-web.use("/api", privateRouter);
+  web.use("/api", publicRouter);
+  web.use("/api", privateRouter);
 
-web.use("/api", errorMiddlewares.apiNotfound);
-web.use(errorMiddlewares.errorHandler);
-//   web.all("*", (req, res) => {
-//     return handler(req, res);
-//   });
-// });
+  web.use("/api", errorMiddlewares.apiNotfound);
+  web.use(errorMiddlewares.errorHandler);
+  web.all("*", (req, res) => {
+    return handler(req, res);
+  });
+});
