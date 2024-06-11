@@ -1,11 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 export default function AlertError({ message, view }) {
-  useEffect(() => {
-    console.log(view);
-  });
   return (
     <>
       <div

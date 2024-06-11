@@ -1,9 +1,57 @@
+"use client";
+import { Register } from "@/app/action/signup/signup";
 import Link from "next/link";
+import AlertError from "../Error-Alert";
+import AlertSuccess from "../Success-Alert";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
+  const redirect = useRouter();
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [viewErrorALert, setViewErrorALert] = useState(false);
+  const [viewSuccessALert, setViewSuccessALert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoadingButton(true);
+    setViewErrorALert(false);
+    await Register(
+      e.currentTarget.name.value,
+      e.currentTarget.username.value,
+      e.currentTarget.email.value,
+      e.currentTarget.phone.value,
+      e.currentTarget.password.value,
+      (err, messageSuccess) => {
+        if (err) {
+          setLoadingButton(false);
+          setLoadingButton(false);
+          setErrorMessage(err.message);
+          setViewErrorALert(true);
+        } else {
+          setViewSuccessALert(true);
+          setTimeout(() => {
+            redirect.push("/login");
+          }, 2000);
+        }
+        return;
+      }
+    );
+  };
   return (
     <>
-      <form className="space-y-4 md:space-y-6" action="#">
+      <AlertError view={viewErrorALert} message={errorMessage} />
+      <AlertSuccess
+        view={viewSuccessALert}
+        title="Berhasil Mendaftar"
+        details={
+          <span>
+            Akun anda berhasil terdaftar. Silahkan{" "}
+            <Link href="/login">Login</Link>
+          </span>
+        }
+      />
+      <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
         <div>
           <label
             for="name"
@@ -86,12 +134,21 @@ export default function Form() {
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500"
-        >
-          Daftar
-        </button>
+        {loadingButton ? (
+          <button
+            disabled
+            className="flex justify-center items-center w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-400"
+          >
+            <span className="loading loading-spinner loading-sm"></span>
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="flex justify-center items-center w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500"
+          >
+            Daftar
+          </button>
+        )}
         <p className="text-sm font-light text-gray-700">
           Sudah memiliki akun ?{" "}
           <Link href="/login" className="font-medium text-red-500">
