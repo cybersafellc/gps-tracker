@@ -7,7 +7,7 @@ GPS Tracker is a project that I made that utilizes the GPS Gether API Browser, w
 I also made an API for public use, here is the doumentation of the Restfull API
 [API DOCS](https://github.com/cybersafellc/gps-tracking-api-migrate)
 
-Client : on development progress....
-Backend / API : Done
+- Client : on development progress....
+- Backend / API : Done
 
 _Author : Rusnanda Purnama_
