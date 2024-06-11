@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Container from "./Container";
+import { cookies } from "next/headers";
+import Profile from "./Profile";
 
 export default async function Navbar(props) {
+  const cookiesStore = cookies();
+  const refresh_token = await cookiesStore.get("refresh_token");
   return (
     <>
       <nav className="bg-white w-100 mx-auto roboto-light">
@@ -105,12 +109,16 @@ export default async function Navbar(props) {
               </div>
             </div>
             <div className="navbar-end">
-              <Link
-                href="/signup"
-                className="btn hidden md:flex bg-red-500 border-red-500 border-1 text-white hover:bg-red-700 hover:border-red-700 text-sm"
-              >
-                Daftar Sekarang
-              </Link>
+              {refresh_token ? (
+                <Profile src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              ) : (
+                <Link
+                  href="/signup"
+                  className="btn hidden md:flex bg-red-500 border-red-500 border-1 text-white hover:bg-red-700 hover:border-red-700 text-sm"
+                >
+                  Daftar Sekarang
+                </Link>
+              )}
             </div>
           </div>
         </Container>
