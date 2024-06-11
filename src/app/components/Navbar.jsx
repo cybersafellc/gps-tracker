@@ -52,7 +52,7 @@ export default async function Navbar(props) {
                   </li>
                 </ul>
               </div>
-              <a className="px-2 text-xl font-bold">GPS Tracker</a>
+              <a className="px-2 text-md md:text-lg font-bold">GPS Tracker</a>
             </div>
             <div className="navbar-center hidden lg:flex">
               <div>
@@ -107,7 +107,7 @@ export default async function Navbar(props) {
             <div className="navbar-end">
               <Link
                 href="/signup"
-                className="btn bg-red-500 border-red-500 border-1 text-white hover:bg-red-700 hover:border-red-700 text-md"
+                className="btn hidden md:flex bg-red-500 border-red-500 border-1 text-white hover:bg-red-700 hover:border-red-700 text-sm"
               >
                 Daftar Sekarang
               </Link>

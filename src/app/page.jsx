@@ -29,7 +29,7 @@ export default function ButtonUsage() {
                 </Link>
                 <Link
                   href="https://github.com/cybersafellc/gps-tracking-api-migrate"
-                  className="btn bg-white text-black hover:bg-black hover:text-white"
+                  className="btn bg-white text-black hover:bg-black hover:text-white hidden sm:flex"
                 >
                   Butuh Penggunaan API?
                 </Link>
@@ -45,7 +45,7 @@ export default function ButtonUsage() {
             </div>
           </div>
         </Container>
-        <Container className="mt-20">
+        <Container className="mt-20 pb-10">
           <div>
             <h3 className="text-2xl text-black uppercase text-center">Fitur</h3>
           </div>
