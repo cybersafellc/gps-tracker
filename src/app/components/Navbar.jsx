@@ -5,7 +5,7 @@ import Profile from "./Profile";
 
 export default async function Navbar(props) {
   const cookiesStore = cookies();
-  const refresh_token = await cookiesStore.get("refresh_token");
+  const refresh_token = cookiesStore.get("refresh_token");
   return (
     <>
       <nav className="bg-white w-100 mx-auto roboto-light">

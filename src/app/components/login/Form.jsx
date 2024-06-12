@@ -29,9 +29,7 @@ export default function Form() {
           setView(true);
         } else {
           setSuccessLogin(true);
-          setTimeout(() => {
-            redirect.push("/");
-          }, 2000);
+          redirect.push("/dashboard");
         }
         return;
       }

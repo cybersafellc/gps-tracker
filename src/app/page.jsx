@@ -21,12 +21,12 @@ export default function ButtonUsage() {
                 tanpa perlu setup yang rumit.
               </p>
               <div className="pt-5 flex gap-4">
-                <Link
-                  href="/signup"
+                <a
+                  href="/dashboard"
                   className="btn text-white bg-red-500 border-red-500 hover:bg-red-700 "
                 >
                   Coba Sekarang
-                </Link>
+                </a>
                 <Link
                   href="https://github.com/cybersafellc/gps-tracking-api-migrate"
                   className="btn bg-white text-black hover:bg-black hover:text-white hidden sm:flex"
