@@ -114,7 +114,7 @@ export default async function Navbar(props) {
               ) : (
                 <Link
                   href="/signup"
-                  className="btn hidden md:flex bg-red-500 border-red-500 border-1 text-white hover:bg-red-700 hover:border-red-700 text-sm"
+                  className="btn hidden md:flex bg-cyan-800 border-cyan-800 border-1 text-white  hover:border-cyan-800 hover:bg-white hover:text-cyan-800 text-sm"
                 >
                   Daftar Sekarang
                 </Link>

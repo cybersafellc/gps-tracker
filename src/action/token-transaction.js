@@ -42,4 +42,26 @@ const refreshToken = async (refresh_token, callback) => {
   }
 };
 
-export { validateAccessToken, refreshToken };
+const verifyTrackingToken = async (tracking_token) => {
+  try {
+    const responses = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/api/tracker/verify-token`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${tracking_token}`,
+        },
+      }
+    );
+    const res = await responses.json();
+    console.log(res);
+    if (res.error) {
+      throw new Error(res.message);
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+export { validateAccessToken, refreshToken, verifyTrackingToken };

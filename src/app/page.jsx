@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Section from "./components/Section";
 import Footer from "./components/Footer";
 
-export default function ButtonUsage() {
+export default function Main() {
   return (
     <>
       <Navbar />
@@ -21,12 +21,12 @@ export default function ButtonUsage() {
                 tanpa perlu setup yang rumit.
               </p>
               <div className="pt-5 flex gap-4">
-                <a
+                <Link
                   href="/dashboard"
-                  className="btn text-white bg-red-500 border-red-500 hover:bg-red-700 "
+                  className="btn text-white bg-cyan-800 border-cyan-800 hover:bg-cyan-900 hover:border-cyan-900 "
                 >
                   Coba Sekarang
-                </a>
+                </Link>
                 <Link
                   href="https://github.com/cybersafellc/gps-tracking-api-migrate"
                   className="btn bg-white text-black hover:bg-black hover:text-white hidden sm:flex"
@@ -51,7 +51,7 @@ export default function ButtonUsage() {
           </div>
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             <a
-              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-red-700 hover:shadow-red-500/10"
+              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-cyan-700 hover:shadow-cyan-500/10"
               href="#"
             >
               <h2 className="mt-4 text-xl font-bold text-black">
@@ -65,7 +65,7 @@ export default function ButtonUsage() {
               </p>
             </a>
             <a
-              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-red-700 hover:shadow-red-500/10"
+              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-cyan-700 hover:shadow-cyan-500/10"
               href="#"
             >
               <h2 className="mt-4 text-xl font-bold text-black">Setup Mudah</h2>
@@ -77,7 +77,7 @@ export default function ButtonUsage() {
               </p>
             </a>
             <a
-              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-red-700 hover:shadow-red-500/10"
+              className="text-black block rounded-xl border border-1 p-8 shadow-xl transition hover:border-cyan-700 hover:shadow-cyan-500/10"
               href="#"
             >
               <h2 className="mt-4 text-xl font-bold text-black">

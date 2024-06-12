@@ -1,15 +1,24 @@
 import Link from "next/link";
-import Container from "../components/Container";
 import PhoneSideBar from "../components/PhoneSideBar";
 import Section from "../components/Section";
 import SideBar from "../components/SideBars";
+import SideBarMenu from "../components/dashboard/SidebarMenu";
+import TableRow from "../components/dashboard/tableRow";
+import { cookies } from "next/headers";
+import getTracking from "../action/dashboard/getTrackings";
+import { Suspense } from "react";
 
-export default function Dashbord() {
+export default async function Dashbord() {
+  const cookieStore = cookies();
+  const access_token = cookieStore.get("access_token")?.value;
+  const trackingsData = await getTracking(access_token);
   return (
     <>
       <Section className="p-0">
         <PhoneSideBar className="md:hidden" />
-        <SideBar className=" md:w-60 hidden z-10" />
+        <SideBar className=" md:w-60 hidden z-10">
+          <SideBarMenu />
+        </SideBar>
 
         <div className="  md:ps-64 ps-20 pe-4 pt-4">
           <nav aria-label="Breadcrumb" className="flex">
@@ -60,43 +69,20 @@ export default function Dashbord() {
                   </th>
                 </tr>
               </thead>
-
               <tbody className="divide-y divide-gray-200">
-                <tr className="odd:bg-gray-50">
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    John Doe
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 flex justify-center">
-                    <Link href="#" className="underline">
-                      <span className="whitespace-nowrap rounded-full bg-green-100 px-2.5 py-0.5 text-sm text-green-700">
-                        Go ro url
-                      </span>
-                    </Link>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    <div className="flex justify-center">24/05/1995</div>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    <div className="flex justify-center">Offline</div>
-                  </td>
-                  <td className="whitespace-nowrap px-4 flex justify-center gap-2 py-2 text-gray-700">
-                    <Link href="#" className="underline">
-                      <span className="whitespace-nowrap rounded-full bg-green-100 px-2.5 py-0.5 text-sm text-green-700">
-                        Live
-                      </span>
-                    </Link>
-                    <Link href="#" className="underline">
-                      <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700">
-                        History Tracker
-                      </span>
-                    </Link>
-                  </td>
-                </tr>
+                {trackingsData?.map(async (data, index) => {
+                  return <TableRow {...data} key={index + 1} />;
+                })}
               </tbody>
             </table>
           </div>
           <div className="mt-4 flex justify-end">
-            <Link href="/tambahkan-url">tambahkan</Link>
+            <Link
+              className="btn bg-cyan-800 hover:bg-cyan-900 text-white border-cyan-800 bg-cyan-800 hover:bg-cyan-900"
+              href="/dashboard/tambahkan"
+            >
+              Tambahkan Url Baru
+            </Link>
           </div>
         </div>
       </Section>

@@ -48,7 +48,7 @@ export default function Form() {
       <form className="space-y-4 md:space-y-6" onSubmit={(e) => hanldeLogin(e)}>
         <div>
           <label
-            for="username"
+            htmlFor="username"
             className="block mb-2 text-sm font-medium text-gray-900 "
           >
             Username
@@ -65,7 +65,7 @@ export default function Form() {
 
         <div>
           <label
-            for="password"
+            htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 "
           >
             Password
@@ -83,21 +83,21 @@ export default function Form() {
         {loadingButton ? (
           <button
             disabled
-            className="flex justify-center items-center w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-400"
+            className="flex justify-center items-center w-full text-white bg-cyan-800 cursor-progress focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-400"
           >
             <span className="loading loading-spinner loading-sm"></span>
           </button>
         ) : (
           <button
             type="submit"
-            className="flex justify-center items-center w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500"
+            className="flex justify-center items-center w-full text-white bg-cyan-800 hover:bg-cyan-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500"
           >
             Masuk
           </button>
         )}
         <p className="text-sm font-light text-gray-700">
           Belum memiliki akun ?{" "}
-          <Link href="/signup" className="font-medium text-red-500">
+          <Link href="/signup" className="font-medium text-cyan-800">
             Daftar Sekarang
           </Link>
         </p>

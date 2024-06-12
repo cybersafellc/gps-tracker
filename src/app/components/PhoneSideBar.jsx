@@ -3,7 +3,7 @@ export default function ({ className }) {
     <>
       <div
         className={
-          "flex h-screen w-16 flex-col justify-between border-e bg-white absolute left-0 top-0 " +
+          "flex h-screen w-16 flex-col justify-between border-e bg-white fixed left-0 top-0 bottom-0 " +
           className
         }
       >
