@@ -12,6 +12,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import clientTokenValidator from "@/app/action/clientTokenValidator";
+import { notFound } from "next/navigation";
 import getLive from "@/app/action/dashboard/live/getLive";
 
 const icon = new L.Icon({
@@ -29,10 +30,10 @@ const MapComponent = ({ tracking_id }) => {
   const handleUpdate = async () => {
     for (let i = 0; i < 1; i) {
       await clientTokenValidator();
-      const dataLocation = await getLive(tracking_id);
-      setLat(dataLocation.lat);
-      setLong(dataLocation.long);
-      setAccuracy(dataLocation.accuracy);
+      const dataLocation = await getLive.getLive(tracking_id);
+      setLat(dataLocation?.lat);
+      setLong(dataLocation?.long);
+      setAccuracy(dataLocation?.accuracy);
       await new Promise((resolve) => setTimeout(resolve, 10000));
     }
     return;
@@ -62,7 +63,7 @@ const MapComponent = ({ tracking_id }) => {
       </Marker>
       <Circle
         center={[lat, long]}
-        radius={accuracy}
+        radius={accuracy || 0}
         pathOptions={{ color: "red", fillColor: "red", fillOpacity: 0.2 }}
       />
     </MapContainer>
@@ -73,7 +74,7 @@ const MapUpdater = ({ lat, long }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView([lat, long]);
+    map.setView([lat || 0, long || 0]);
   }, [lat, long, map]);
 
   return null;

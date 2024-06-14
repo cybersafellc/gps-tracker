@@ -4,6 +4,10 @@ import Section from "../../components/Section";
 import SideBar from "../../components/SideBars";
 import SideBarMenu from "../../components/dashboard/live/SidebarMenu";
 import dynamic from "next/dynamic";
+import Logout from "@/app/components/dashboard/Logout";
+import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
+import getLive from "@/app/action/dashboard/live/getLive";
 const MapComponent = dynamic(
   () => import("../../components/dashboard/live/MapsComponent"),
   {
@@ -11,12 +15,22 @@ const MapComponent = dynamic(
   }
 );
 export default async function Live({ searchParams }) {
+  const cookieStore = cookies();
+  if (!searchParams.id) return notFound();
+  const access_token = cookieStore.get("access_token").value;
+  const checkLiveId = await getLive.getLiveServer(
+    access_token,
+    searchParams.id
+  );
+  if (!checkLiveId) return notFound();
   return (
     <>
       <Section className="p-0">
         <PhoneSideBar className="md:hidden" />
         <SideBar className=" md:w-60 hidden z-10">
-          <SideBarMenu />
+          <SideBarMenu>
+            <Logout />
+          </SideBarMenu>
         </SideBar>
 
         <div className="  md:ps-64 ps-20 pe-4 pt-4">
@@ -66,7 +80,7 @@ export default async function Live({ searchParams }) {
               className="btn bg-cyan-800 border-cyan-800 text-white hover:bg-cyan-900 hover:border-cyan-900"
               href="/dashboard"
             >
-              Kembali
+              <i className="bx bx-arrow-back"></i> Kembali
             </Link>
           </div>
           <div className="overflow-x-auto pt-5">

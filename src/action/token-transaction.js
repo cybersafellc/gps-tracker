@@ -54,7 +54,6 @@ const verifyTrackingToken = async (tracking_token) => {
       }
     );
     const res = await responses.json();
-    console.log(res);
     if (res.error) {
       throw new Error(res.message);
     }

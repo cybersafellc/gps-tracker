@@ -137,14 +137,14 @@ export default function Form() {
         {loadingButton ? (
           <button
             disabled
-            className="flex justify-center items-center w-full text-white bg-cyan-800 cursor-progress focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-400"
+            className="flex justify-center items-center w-full text-white bg-cyan-800 cursor-progress focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             <span className="loading loading-spinner loading-sm"></span>
           </button>
         ) : (
           <button
             type="submit"
-            className="flex justify-center items-center w-full text-white bg-cyan-800 hover:bg-cyan-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500"
+            className="flex justify-center items-center w-full text-white bg-cyan-800 hover:bg-cyan-900 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Daftar
           </button>

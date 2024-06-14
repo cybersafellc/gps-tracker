@@ -9,14 +9,14 @@ export default async function Navbar(props) {
   return (
     <>
       <nav className="bg-white w-100 mx-auto roboto-light">
-        <Container className="px-4 md:px-0">
+        <Container className=" md:px-0">
           <div className="navbar text-black mx-auto w-full px-0 flex items-center">
             <div className="navbar-start">
               <div className="dropdown">
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost lg:hidden"
+                  className="btn btn-ghost lg:hidden ps-0"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -38,21 +38,16 @@ export default async function Navbar(props) {
                   className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-52"
                 >
                   <li>
-                    <a>Item 1</a>
+                    <a>Source Code</a>
                   </li>
                   <li>
-                    <a>Parent</a>
-                    <ul className="p-2">
-                      <li>
-                        <a>Submenu 1</a>
-                      </li>
-                      <li>
-                        <a>Submenu 2</a>
-                      </li>
-                    </ul>
+                    <a>Api</a>
                   </li>
                   <li>
-                    <a>Item 3</a>
+                    <a>About US</a>
+                  </li>
+                  <li>
+                    <a>Contact</a>
                   </li>
                 </ul>
               </div>
@@ -110,7 +105,7 @@ export default async function Navbar(props) {
             </div>
             <div className="navbar-end">
               {refresh_token ? (
-                <Profile src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <Profile src="user.jpg" />
               ) : (
                 <Link
                   href="/signup"

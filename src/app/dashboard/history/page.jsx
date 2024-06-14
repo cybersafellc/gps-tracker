@@ -1,19 +1,21 @@
-import Link from "next/link";
-import PhoneSideBar from "../components/PhoneSideBar";
-import Section from "../components/Section";
-import SideBar from "../components/SideBars";
-import SideBarMenu from "../components/dashboard/SidebarMenu";
-import TableRow from "../components/dashboard/tableRow";
-import { cookies } from "next/headers";
-import getTracking from "../action/dashboard/getTrackings";
-import Logout from "../components/dashboard/Logout";
+import getHistorysSSR from "@/app/action/dashboard/history/getHistorys";
+import Section from "@/app/components/Section";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import PhoneSideBar from "@/app/components/PhoneSideBar";
+import SideBar from "@/app/components/SideBars";
 
-export default async function Dashbord() {
-  const cookieStore = cookies();
-  const access_token = cookieStore.get("access_token")?.value;
-  const trackingsData = await getTracking(access_token);
-  if (!trackingsData) return notFound();
+import TableRow from "@/app/components/dashboard/history/TableRow";
+import { cookies } from "next/headers";
+import Logout from "@/app/components/dashboard/Logout";
+import SideBarMenu from "@/app/components/dashboard/history/SideBarMenu";
+
+export default async function History({ searchParams }) {
+  if (!searchParams.tracking_id) return notFound();
+  const cookiesStore = cookies();
+  const access_token = cookiesStore.get("access_token").value;
+  const historys = await getHistorysSSR(searchParams.tracking_id, access_token);
+  if (!historys) return notFound();
   return (
     <>
       <Section className="p-0">
@@ -28,8 +30,8 @@ export default async function Dashbord() {
           <nav aria-label="Breadcrumb" className="flex">
             <ol className="flex overflow-hidden rounded-lg border border-gray-200 text-gray-600">
               <li className="flex items-center">
-                <a
-                  href="#"
+                <Link
+                  href="/dashboard"
                   className="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900"
                 >
                   <svg
@@ -48,6 +50,17 @@ export default async function Dashbord() {
                   </svg>
 
                   <span className="ms-1.5 text-xs font-medium"> Dashbord </span>
+                </Link>
+              </li>
+
+              <li className="relative flex items-center">
+                <span className="absolute inset-y-0 -start-px h-10 w-4 bg-gray-100 [clip-path:_polygon(0_0,_0%_100%,_100%_50%)] rtl:rotate-180"></span>
+
+                <a
+                  href="#"
+                  className="flex h-10 items-center bg-white pe-4 ps-8 text-xs font-medium transition hover:text-gray-900"
+                >
+                  History
                 </a>
               </li>
             </ol>
@@ -57,16 +70,16 @@ export default async function Dashbord() {
               <thead className="ltr:text-left rtl:text-right">
                 <tr>
                   <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    Device Name
+                    Latitude
                   </th>
                   <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    Url
+                    Longtitude
+                  </th>
+                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                    Accuracy
                   </th>
                   <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     Date
-                  </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    Status
                   </th>
                   <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     Action
@@ -74,27 +87,19 @@ export default async function Dashbord() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {trackingsData?.map(async (data, index) => {
+                {historys?.map(async (data, index) => {
                   return <TableRow {...data} key={index + 1} />;
                 })}
               </tbody>
             </table>
           </div>
-          {trackingsData[0] ? (
+          {historys[0] ? (
             ""
           ) : (
             <div className="font-bold text-md md:text-2xl flex justify-center py-6">
-              List Tracking Kosong
+              History Tracking Kosong
             </div>
           )}
-          <div className="mt-4 flex justify-end">
-            <Link
-              className="btn bg-cyan-800 hover:bg-cyan-900 text-white border-cyan-800 bg-cyan-800 hover:bg-cyan-900"
-              href="/dashboard/tambahkan"
-            >
-              Tambahkan Url Baru
-            </Link>
-          </div>
         </div>
       </Section>
     </>

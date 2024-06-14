@@ -1,12 +1,15 @@
 import Link from "next/link";
 
-export default function SideBarMenu() {
+export default function SideBarMenu({ children }) {
   return (
     <>
       <li>
         <details className="group [&_summary::-webkit-details-marker]:hidden">
           <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-white hover:bg-cyan-700  bg-cyan-800">
-            <span className="text-sm font-medium"> Dashbord </span>
+            <span className="text-sm font-medium flex items-center gap-1">
+              <i className="bx bxs-dashboard"></i>
+              Dashbord{" "}
+            </span>
 
             <span className="shrink-0 transition duration-300 group-open:-rotate-180">
               <svg
@@ -27,8 +30,9 @@ export default function SideBarMenu() {
             <li>
               <Link
                 href="#"
-                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed"
+                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1"
               >
+                <i className="bx bx-laptop"></i>
                 Live
               </Link>
             </li>
@@ -37,8 +41,9 @@ export default function SideBarMenu() {
             <li>
               <Link
                 href="#"
-                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed"
+                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1"
               >
+                <i className="bx bx-history"></i>
                 History
               </Link>
             </li>
@@ -47,8 +52,9 @@ export default function SideBarMenu() {
             <li>
               <Link
                 href="/dashboard/tambahkan"
-                className="block rounded-lg px-4 py-2 text-sm font-medium hover:bg-cyan-700 text-white  hover:bg-cyan-700  bg-cyan-800"
+                className="block rounded-lg px-4 py-2 text-sm font-medium hover:bg-cyan-700 bg-cyan-800 text-white  hover:text-white flex items-center gap-1"
               >
+                <i className="bx bx-plus"></i>
                 Tambahkan
               </Link>
             </li>
@@ -58,8 +64,10 @@ export default function SideBarMenu() {
 
       <li>
         <details className="group [&_summary::-webkit-details-marker]:hidden">
-          <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 hover:bg-gray-600 hover:bg-cyan-700   hover:text-white">
-            <span className="text-sm font-medium"> Account </span>
+          <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 hover:bg-cyan-700 hover:bg-cyan-700  hover:text-white">
+            <span className="text-sm font-medium flex items-center gap-1">
+              <i className="bx bxs-user"></i> Account{" "}
+            </span>
 
             <span className="shrink-0 transition duration-300 group-open:-rotate-180">
               <svg
@@ -78,16 +86,7 @@ export default function SideBarMenu() {
           </summary>
 
           <ul className="mt-2 space-y-1 px-4">
-            <li>
-              <form action="/logout" method="GET">
-                <button
-                  type="submit"
-                  className="w-full rounded-lg px-4 py-2 text-sm font-medium  [text-align:_inherit] hover:bg-cyan-700   hover:text-white"
-                >
-                  Logout
-                </button>
-              </form>
-            </li>
+            <li>{children}</li>
           </ul>
         </details>
       </li>

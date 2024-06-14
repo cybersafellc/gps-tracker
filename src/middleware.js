@@ -5,7 +5,12 @@ import logoutMiddleware from "./middlewares/logOut";
 import trackTokenVerifyMiddleware from "./middlewares/trackTokenVerify";
 
 const isAlreadyLoginUrl = ["/login", "/signup"];
-const auth = ["/dashboard", "/dashboard/live", "/dashboard/tambahkan"];
+const auth = [
+  "/dashboard",
+  "/dashboard/live",
+  "/dashboard/tambahkan",
+  "/dashboard/history",
+];
 const logout = ["/logout"];
 const trackTokenVerify = ["/redirect"];
 
@@ -33,6 +38,7 @@ export const config = {
     "/dashboard",
     "/dashboard/tambahkan",
     "/dashboard/live",
+    "/dashboard/history",
     "/login",
     "/signup",
     "/logout",

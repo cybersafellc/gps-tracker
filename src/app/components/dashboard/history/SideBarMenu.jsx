@@ -30,7 +30,7 @@ export default function SideBarMenu({ children }) {
             <li>
               <Link
                 href="#"
-                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1 bg-cyan-800 text-white"
+                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1"
               >
                 <i className="bx bx-laptop"></i>
                 Live
@@ -41,7 +41,7 @@ export default function SideBarMenu({ children }) {
             <li>
               <Link
                 href="#"
-                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1"
+                className="block rounded-lg px-4 py-2 text-sm font-medium cursor-not-allowed flex items-center gap-1 text-white bg-cyan-800"
               >
                 <i className="bx bx-history"></i>
                 History

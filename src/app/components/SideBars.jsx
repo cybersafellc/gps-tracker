@@ -31,7 +31,6 @@ export default function SideBar({ className, children }) {
             <div>
               <p className="text-xs ">
                 <strong className="block font-medium">User</strong>
-
                 <span> ****@****.com </span>
               </p>
             </div>

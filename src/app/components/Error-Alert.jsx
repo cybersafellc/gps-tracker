@@ -1,11 +1,12 @@
-export default function AlertError({ message, view }) {
+export default function AlertError({ message, view, className }) {
   return (
     <>
       <div
         role="alert"
         className={
           "rounded border-s-4 border-red-500 bg-red-50 p-4 " +
-          (view ? "block" : "hidden")
+          className +
+          (view ? " block " : " hidden ")
         }
       >
         <div className="flex items-center gap-2 text-red-800">

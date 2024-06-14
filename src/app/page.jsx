@@ -21,12 +21,12 @@ export default function Main() {
                 tanpa perlu setup yang rumit.
               </p>
               <div className="pt-5 flex gap-4">
-                <Link
+                <a
                   href="/dashboard"
                   className="btn text-white bg-cyan-800 border-cyan-800 hover:bg-cyan-900 hover:border-cyan-900 "
                 >
                   Coba Sekarang
-                </Link>
+                </a>
                 <Link
                   href="https://github.com/cybersafellc/gps-tracking-api-migrate"
                   className="btn bg-white text-black hover:bg-black hover:text-white hidden sm:flex"

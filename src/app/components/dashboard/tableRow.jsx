@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Delete from "./Delete";
+import Copy from "./Copy";
 
 export default async function TableRow(props) {
   return (
@@ -8,14 +10,7 @@ export default async function TableRow(props) {
           {props.device_name}
         </td>
         <td className="whitespace-nowrap px-4 py-2 text-gray-700 flex justify-center">
-          <Link
-            href={`/redirect/${props.token}?url=https://example.com`}
-            className="underline"
-          >
-            <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700">
-              Click Here
-            </span>
-          </Link>
+          <Copy token={props.token} />
         </td>
         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
           <div className="flex justify-center">{props.date}</div>
@@ -47,11 +42,7 @@ export default async function TableRow(props) {
               History Tracker
             </span>
           </Link>
-          <Link href="#" className="underline">
-            <span className="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700">
-              Delete
-            </span>
-          </Link>
+          <Delete device_name={props.device_name} tracking_id={props.id} />
         </td>
       </tr>
     </>

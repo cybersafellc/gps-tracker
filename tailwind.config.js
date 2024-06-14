@@ -15,5 +15,5 @@ module.exports = withMT({
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("tw-elements-react/dist/plugin.cjs")],
 });

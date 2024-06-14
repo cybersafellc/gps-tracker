@@ -1,11 +1,18 @@
-export default function AlertSuccess({ title, details, view }) {
+export default function AlertSuccess({
+  title,
+  details,
+  view,
+  className,
+  children,
+}) {
   return (
     <>
       <div
         role="alert"
         className={
           "rounded-xl border border-gray-100 bg-white p-4 " +
-          (view ? "block" : "hidden")
+          className +
+          (view ? " block " : " hidden ")
         }
       >
         <div className="flex items-start gap-4">
