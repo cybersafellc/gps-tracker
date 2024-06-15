@@ -49,6 +49,7 @@
     "react-dom": "^18",
     "react-leaflet": "^4.2.1",
     "styled-components": "^6.1.11",
+    "styled-jsx": "^5.1.6",
     "tailwind-merge": "^2.3.0",
     "tw-elements-react": "^1.0.0-alpha-end",
     "winston": "^3.13.0",
